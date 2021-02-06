@@ -5,7 +5,7 @@ using System.Text;
 
 namespace DataAccess.Abstract
 {
-    public interface ICarDal : IEntityRepository<Car> // Gereric sınıfını Product türüne göre yapılandırdım.
+    public interface IBrandDal : IEntityRepository<Brand>
     {
     }
 }

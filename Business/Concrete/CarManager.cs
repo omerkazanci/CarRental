@@ -28,30 +28,47 @@ namespace Business.Concrete
             _carDal = carDal;
         }
 
-
         public void Add(Car car)
         {
-            _carDal.Add(car);
+            // Araba ismine göre şart oluşturacağım fakat önceki ödevle bağlantılı olarak böyle bir sütun olacağı  yazmıyordu. O yüzden bu şartı 
+            // Description kolonu üzerinde uygulayacağım.
+            if (car.Description.Length > 2 && car.DailyPrice > 0)
+            {
+                _carDal.Add(car);
+            }
+            else
+            {
+                Console.WriteLine("Yeni araba eklenemedi");
+            }
         }
+
+        public Car GetCarsByBrandId(int id)
+        {
+            return _carDal.GetById(c => c.BrandId == id);
+        }
+
+        public Car GetCarsByColorId(int id)
+        {
+            return _carDal.GetById(c => c.ColorId == id);
+        }
+
+
 
         public void Delete(Car car)
         {
-            _carDal.Delete(car);
+            throw new NotImplementedException();
         }
 
         public List<Car> GetAll()
         {
-            return _carDal.GetAll();
+            throw new NotImplementedException();
         }
 
-        public Car GetById(int Id)
+
+        public void Update(Car car)
         {
-            return _carDal.GetById(Id);
+            throw new NotImplementedException();
         }
 
-        public void Update(Car carOld, Car carNew)
-        {
-            _carDal.Update(carOld, carNew);
-        }
     }
 }
