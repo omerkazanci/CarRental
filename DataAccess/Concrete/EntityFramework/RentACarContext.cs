@@ -11,12 +11,10 @@ namespace DataAccess.Concrete.EntityFramework
     public class RentACarContext : DbContext
     {
         // Öncelikle veribanımızın nerede olduğunu söylememiz gerekir.
-        // Aşağıdaki metod projemin hangi veritabanı ile ilişkili olduğunu belirteceğiz. Önce override yaptık. tahminimce DbContext'den
-        // gelen bu metodun default olarak barındırdığı bir veritabanı vardı. Biz o yüzden metodu override yaptık ve kendi veritabanımızın
-        // nerede olduğunu tanımlayacağız.
+        // Aşağıdaki metod projemin hangi veritabanı ile ilişkili olduğunu belirteceğiz. Önce override yaptık. Çünkü virtual metod'dur.
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            //base.OnConfiguring(optionsBuilder);  // yukarıdaki sebepten dolayı burayı kaldırdık. default geliyordu.
+            //base.OnConfiguring(optionsBuilder);  // override eriyoruz ama base class'ı da kullanabilirim istersem.
 
             // @ : tıknak içindeki bütün ifadeler string ifadesidir. Özel anlamı olan karakterler burada işe yaramaz.
             // Trusted_Connection = true : Kullanıcı adı ve şifre olmadan kullanabiliyorum. Gerçek sistemlerde eğer güçlü bir domain

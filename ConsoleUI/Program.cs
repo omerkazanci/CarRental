@@ -1,4 +1,5 @@
 ﻿using Business.Concrete;
+using DataAccess.Abstract;
 using DataAccess.Concrete.EntityFramework;
 using DataAccess.Concrete.InMemory;
 using Entities.Concrete;
@@ -32,13 +33,22 @@ namespace ConsoleUI
             //carManager.GetById(1);
 
 
-            CarManager carManager = new CarManager(new EfCarDal());
-            carManager.Add(new Car { BrandId = 11, ColorId = 2, ModelYear = 2013, DailyPrice = 190, Description = "Az yakar çok kaçar"});
+            //CarManager carManager = new CarManager(new EfCarDal());
+            //carManager.Add(new Car { BrandId = 11, ColorId = 2, ModelYear = 2013, DailyPrice = 190, Description = "Az yakar çok kaçar"});
 
-            var getCarsByBrandId = carManager.GetCarsByBrandId(1);
-            Console.WriteLine(getCarsByBrandId.ModelYear);
-            var getCarsByColordId = carManager.GetCarsByColorId(1);
-            Console.WriteLine(getCarsByColordId.ModelYear);
+            //var getCarsByBrandId = carManager.GetCarsByBrandId(1);
+            //Console.WriteLine(getCarsByBrandId.ModelYear);
+            //var getCarsByColordId = carManager.GetCarsByColorId(1);
+            //Console.WriteLine(getCarsByColordId.ModelYear);
+
+            CarManager carManager = new CarManager(new EfCarDal());
+            carManager.GetAll();
+
+            ColorManager colorManager = new ColorManager(new EfColorDal());
+            colorManager.GetById(5);
+
+            BrandManager brandManager = new BrandManager(new EfBrandDal());
+            brandManager.Add(new Brand { Name = "Mercedes-Benz" });
         }
     }
 }

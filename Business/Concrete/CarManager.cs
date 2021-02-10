@@ -42,33 +42,25 @@ namespace Business.Concrete
             }
         }
 
-        public Car GetCarsByBrandId(int id)
+        public void Delete(Car entity)
         {
-            return _carDal.GetById(c => c.BrandId == id);
+            _carDal.Delete(entity);
         }
 
-        public Car GetCarsByColorId(int id)
+        public void Update(Car entity)
         {
-            return _carDal.GetById(c => c.ColorId == id);
-        }
-
-
-
-        public void Delete(Car car)
-        {
-            throw new NotImplementedException();
+            _carDal.Update(entity);
         }
 
         public List<Car> GetAll()
         {
-            throw new NotImplementedException();
+            return _carDal.GetAll();
         }
+                      
 
-
-        public void Update(Car car)
+        public Car GetById(int id)
         {
-            throw new NotImplementedException();
+            return _carDal.GetById(c => c.Id == id);
         }
-
     }
 }
