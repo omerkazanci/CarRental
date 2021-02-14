@@ -11,7 +11,6 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-
             //CarManager carManager = new CarManager(new InMemoryCarDal());
 
             //// Ekleme
@@ -41,14 +40,29 @@ namespace ConsoleUI
             //var getCarsByColordId = carManager.GetCarsByColorId(1);
             //Console.WriteLine(getCarsByColordId.ModelYear);
 
+            //CarManager carManager = new CarManager(new EfCarDal());
+            //carManager.GetAll();
+
+            //ColorManager colorManager = new ColorManager(new EfColorDal());
+            //colorManager.GetById(5);
+
+            //BrandManager brandManager = new BrandManager(new EfBrandDal());
+            //brandManager.Add(new Brand { Name = "Mercedes-Benz" });
+
+            DtoTest();
+        }
+
+        private static void DtoTest()
+        {
             CarManager carManager = new CarManager(new EfCarDal());
-            carManager.GetAll();
-
-            ColorManager colorManager = new ColorManager(new EfColorDal());
-            colorManager.GetById(5);
-
-            BrandManager brandManager = new BrandManager(new EfBrandDal());
-            brandManager.Add(new Brand { Name = "Mercedes-Benz" });
+            var result = carManager.GetCarDetails();
+            foreach (var carDetail in result)
+            {
+                Console.WriteLine(
+                    "CarName : {0} -- BrandName : {1} -- ColorName : {2} -- DailyPrice : {3}",
+                    carDetail.CarName, carDetail.BrandName, carDetail.ColorName, carDetail.DailyPrice
+                    );
+            }
         }
     }
 }
