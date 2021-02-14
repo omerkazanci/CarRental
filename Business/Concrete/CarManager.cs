@@ -1,4 +1,6 @@
 ﻿using Business.Abstract;
+using Business.Constants;
+using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
@@ -11,62 +13,52 @@ namespace Business.Concrete
     public class CarManager : ICarService
     {
 
-        // Bu kısımda kafası karışan çok oluyor kendimden biliyorum. Neden bu şekilde injection yapıyoruz ? 
-        // Aslında cevap çok basit. Interface'lerin referans tutucu özelliğinin olması. Şöyle ki;
-        // Aşağıda yaptığımız işlemleri kendi belleğimizde oluşturduğumuz (InMemoryCarDal) içindeki List üzerinden yapıyoruz.
-        // Ve biz ICarDal içinde metodlar tanımladık (Add, Delete, GetAll, GetById, Update) ve bu metodlar ICarDal interface'sini implemente eden
-        // sınıflarda olmak zorunda. Şu an için InMemoryCarDal implemente ediyor ve içinde implemente ettiğim metodların hepsinin işlemlerini yaptım.
-        // Fakat yarın Excel dosyasından verileri okumam gerekebilir ve bir IExcelCarDal sınıfı oluşturup ICarDal sınıfından implemente edebilirim.
-        // Bu değişiklik için bütün kodlar değişecek mi şimdi ? Hayır. Aşağıdaki gibi bir kullanım bizi bu dertten kurtarır. CarManager'dan bir
-        // instance(örnek) oluşturduğumda benden ICarDal türünde bir parametre isteyecek. ICarDal interface'si kendisinden implementasyon yapan
-        // sınıfların referansını tutabildiğinden parametre olarak IExcelCarDal türünde gönderirsem ona göre işlem yapar, InMemoryCarDal
-        // türünde gönderirsem ona göre. Yada başka başka veri okuma sınıflarım olabilir önemli değil. Yüzlerce olsa da mantığımız işlemeye devam eder.
-        // Bu özgürlüğe sahip olmamız ve sürdürülebilir yazılım geliştirme üretebilmemiz için bu kullanım çok önemlidir.
-
         ICarDal _carDal;
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
         }
 
-        public void Add(Car car)
+        public IResult Add(Car car)
         {
-            // Araba ismine göre şart oluşturacağım fakat önceki ödevle bağlantılı olarak böyle bir sütun olacağı  yazmıyordu. O yüzden bu şartı 
-            // Description kolonu üzerinde uygulayacağım.
-            if (car.Description.Length > 2 && car.DailyPrice > 0)
+            if (car.Description.Length < 2)
             {
-                _carDal.Add(car);
+                // magic string
+                return new ErrorResult(Messages.CarNameInvalid);  // buraya string yazmak sakıncalırdır. Nerde ne yazdığını aklında tutman 
+                // lazımdır veya heryerde aynı şeyi yazsan bile bir değişiklik yapmak istediğinde sıkıntı doğurur.
             }
-            else
-            {
-                Console.WriteLine("Yeni araba eklenemedi");
-            }
+            _carDal.Add(car);
+            return new SuccessResult(Messages.CarAdded);  // Burada Result nasıl dönebiliyorum ? Çünkü IResult, Result'ın referansını tutabiliyor.
         }
 
-        public void Delete(Car entity)
+        public IResult Delete(Car entity)
         {
             _carDal.Delete(entity);
+            return new SuccessResult(Messages.CarDeleted);  
         }
 
-        public void Update(Car entity)
+        public IResult Update(Car entity)
         {
             _carDal.Update(entity);
+            return new SuccessResult(Messages.CarUpdated);
         }
 
-        public List<Car> GetAll()
+        // Bu metod bir liste dönüyor. Başka birşey nasıl döndürecek beraberinde ? Aynı anda birden fazla şey döndürmek istersek eğer
+        // Encapsulation kullanacağız. Generic yapıları kullanarak.
+        public IDataResult<List<Car>> GetAll()
         {
-            return _carDal.GetAll();
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
         }
                       
 
-        public Car GetById(int id)
+        public IDataResult<Car> GetById(int id)
         {
-            return _carDal.GetById(c => c.Id == id);
+            return new SuccessDataResult<Car>(_carDal.GetById(c => c.Id == id));
         }
 
-        public List<CarDetailDto> GetCarDetails()
+        public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
-            return _carDal.GetCarDetails();
+            return new SuccessDataResult<List<CarDetailDto>>(_carDal.GetCarDetails());
         }
     }
 }
