@@ -10,43 +10,41 @@ namespace ConsoleUI
     {
         static void Main(string[] args)
         {
-            //// Ekleme
-            //carManager.Add(new Car { Id = 11, BrandId = 5, ColorId = 1, DailyPrice = 300, ModelYear = 2017, Description = "Az yakar çok kaçar" });
-
-            //// Silme
-            //carManager.Delete(new Car { Id = 11, BrandId = 5, ColorId = 1, DailyPrice = 300, ModelYear = 2017, Description = "Az yakar çok kaçar" });
-
-            //// Güncelleme
-            //carManager.Update(
-            //new Car { Id = 1, BrandId = 4, ColorId = 3, ModelYear = 2015, DailyPrice = 290, Description = "Az yakar çok kaçar" },
-            //new Car { Id = 1, BrandId = 5, ColorId = 1, DailyPrice = 300, ModelYear = 2017, Description = "Az yakar çok kaçar" }
-            //);
-
-            //// Bütün araçları getir
-            //carManager.GetAll();
-
-            //// Id ile filtreleyerek araba getir
-            //carManager.GetById(1);
+            //DtoTest();
 
 
-            //CarManager carManager = new CarManager(new EfCarDal());
-            //carManager.Add(new Car { BrandId = 11, ColorId = 2, ModelYear = 2013, DailyPrice = 190, Description = "Az yakar çok kaçar"});
+            AddUser();
 
-            //var getCarsByBrandId = carManager.GetCarsByBrandId(1);
-            //Console.WriteLine(getCarsByBrandId.ModelYear);
-            //var getCarsByColordId = carManager.GetCarsByColorId(1);
-            //Console.WriteLine(getCarsByColordId.ModelYear);
+            AddCustomer();
 
-            //CarManager carManager = new CarManager(new EfCarDal());
-            //carManager.GetAll();
+            RentACar();
+            // Şuan için işlemler tam doğru ilerlemiyor. Çünkü kiralama kısmında CustomerId manüel veriyoruz ve olmayan bir CustomerId versek bile 
+            // sistem çalışır. Fakar Manager dosyalarında temel birkaç kontrolü gerçekleştirdim ve ilerleyen dönemde Angular ile bir web arayüz
+            // oluşturduğumuzda işlemlerimiz daha kolay olacak çünkü başta arayüzde kısıtlamalar getirip bahsettiğim hataların önüne geçeceğiz.
+            // Şuan için hala sistemi simüle ediyoruz ve eksikleri çok.
+        }
 
-            //ColorManager colorManager = new ColorManager(new EfColorDal());
-            //colorManager.GetById(5);
+        private static void RentACar()
+        {
+            RentalManager rentalManager = new RentalManager(new EfRentalDal());
+            rentalManager.Add(new Rental { CarId = 5, CustomerId = 1, RentalDate = new DateTime(2021 / 02 / 18), ReturnDate = new DateTime(2021 / 03 / 01) });
+        }
 
-            //BrandManager brandManager = new BrandManager(new EfBrandDal());
-            //brandManager.Add(new Brand { Name = "Mercedes-Benz" });
+        private static void AddCustomer()
+        {
+            CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
+            customerManager.Add(new Customer { UserId = 1, CompanyName = "Apple" });
+            customerManager.Add(new Customer { UserId = 3, CompanyName = "Samsung" });
+        }
 
-            DtoTest();
+        private static void AddUser()
+        {
+            UserManager userManager = new UserManager(new EfUserDal());
+            userManager.Add(new User { FirstName = "Ömer", LastName = "Kazancı", EMail = "omer@gmail.com", Password = "123456" });
+            userManager.Add(new User { FirstName = "Engin", LastName = "Demiroğ", EMail = "engin@gmail.com", Password = "123456" });
+            userManager.Add(new User { FirstName = "Kerem", LastName = "Varış", EMail = "kerem@gmail.com", Password = "123456" });
+            userManager.Add(new User { FirstName = "Murat", LastName = "Kurtboğan", EMail = "murat@gmail.com", Password = "123456" });
+            userManager.Add(new User { FirstName = "Esra", LastName = "Sancak", EMail = "esra@gmail.com", Password = "123456" });
         }
 
         private static void DtoTest()

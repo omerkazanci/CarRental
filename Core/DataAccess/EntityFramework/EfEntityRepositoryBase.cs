@@ -60,7 +60,7 @@ namespace Core.DataAccess.EntityFramework
                 return filter == null
                     ? context.Set<TEntity>().ToList()
                     : context.Set<TEntity>().Where(filter).ToList();
-                // arka planda SELECT * FROM CARS döndürür. Ve sonrasında onu listeye çavirdik.
+                // arka planda SELECT * FROM CARS döndürür. Ve sonrasında onu listeye çevirdik.
                 // SELECT * FROM CARS WHERE FILTER(burada gönderdiğim filtre ne ise)
             }
         }

@@ -25,6 +25,9 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Car> Cars { get; set; }  // Bendeki Car nesnesini veritabanındaki Cars ile bağla.
         public DbSet<Brand> Brands { get; set; }
         public DbSet<Color> Colors { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Rental> Rentals { get; set; }
         // İlk konfigürasyon yukarıdaki gibi. Daha sonra profesyonelleştireceğiz.
     }
 }
