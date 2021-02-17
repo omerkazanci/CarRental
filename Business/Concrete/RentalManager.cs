@@ -25,6 +25,8 @@ namespace Business.Concrete
         // 5.Müşteri oluşturulmuş mu ?
         // Bu maddeleri kontrol edeceğiz. Fakat şuan sistemimiz daha çok simüle etmeye yönelik olduğundan sadece Aracın kiralanmış olup
         // olmadığına bakalım ilerleyen dönemlerde bir web arayüz oluşturduğumuzda bu kısımlar refactor edilecek ve tüm kontroller yapılabilecek..               
+        // Bütün metodlarda kontroller olmak zorunda fakat şuan için sadece Add metodunda kullandım
+
         public IResult Add(Rental entity)
         {
             var result = _rentalDal.GetAll(r => r.CarId == entity.CarId);
@@ -40,22 +42,24 @@ namespace Business.Concrete
 
         public IResult Delete(Rental entity)
         {
-            throw new NotImplementedException();
+            _rentalDal.Delete(entity);
+            return new SuccessResult();
         }
 
         public IDataResult<List<Rental>> GetAll()
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<List<Rental>>(_rentalDal.GetAll());
         }
 
         public IDataResult<Rental> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Rental>(_rentalDal.GetById(r => r.Id == id));
         }
 
         public IResult Update(Rental entity)
         {
-            throw new NotImplementedException();
+            _rentalDal.Update(entity);
+            return new SuccessResult();
         }
     }
 }

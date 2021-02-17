@@ -19,6 +19,7 @@ namespace Business.Concrete
 
         // Kullanıcı ekliyoruz fakat daha önce kayıt var mı ? Şuan sadece isim yönünden kontrol gerçekleştirdim. Normalde EMail unique(eşsiz)
         // olması gerekir ve onun üzerinden kontrol yapılır. Ve diğer tanımlanan kontroller üzerinden.
+        // Bütün metodlarda kontroller olmak zorunda fakat şuan için sadece Add metodunda kullandım
         public IResult Add(User entity)
         {
             var result = _userDal.GetAll(u => u.FirstName == entity.FirstName);
@@ -34,7 +35,8 @@ namespace Business.Concrete
 
         public IResult Delete(User entity)
         {
-            throw new NotImplementedException();
+            _userDal.Delete(entity);
+            return new SuccessResult();
         }
 
         public IDataResult<List<User>> GetAll()
@@ -44,12 +46,13 @@ namespace Business.Concrete
 
         public IDataResult<User> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<User>(_userDal.GetById(u => u.Id == id));
         }
 
         public IResult Update(User entity)
         {
-            throw new NotImplementedException();
+            _userDal.Update(entity);
+            return new SuccessResult();
         }
     }
 }

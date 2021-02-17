@@ -19,6 +19,8 @@ namespace Business.Concrete
 
         // Burada Müşteri ekleyeceğiz. Fakat müşteriler Kullanıcılar arasında olmalı. Çünkü Kullanıcılar sistemde kaydı olan, Müşteriler ise
         // araç kiralamış olan kişilerdir. Bu bağlamda önce Kullanıcı kontrolünü sonrasında ise Müşteri kontrolünü yaparak ekleme yapacağız.
+        // Bütün metodlarda kontroller olmak zorunda fakat şuan için sadece Add metodunda kullandım
+
         public IResult Add(Customer entity)
         {
             var result = _customerDal.GetAll(c => c.UserId == entity.UserId);
@@ -34,22 +36,24 @@ namespace Business.Concrete
 
         public IResult Delete(Customer entity)
         {
-            throw new NotImplementedException();
+            _customerDal.Delete(entity);
+            return new SuccessResult();
         }
 
         public IDataResult<List<Customer>> GetAll()
-        {
-            throw new NotImplementedException();
+        {            
+            return new SuccessDataResult<List<Customer>>(_customerDal.GetAll());
         }
 
         public IDataResult<Customer> GetById(int id)
         {
-            throw new NotImplementedException();
+            return new SuccessDataResult<Customer>(_customerDal.GetById(c => c.Id == id));
         }
 
         public IResult Update(Customer entity)
         {
-            throw new NotImplementedException();
+            _customerDal.Update(entity);
+            return new SuccessResult();
         }
     }
 }
