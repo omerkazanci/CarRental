@@ -1,4 +1,5 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -27,11 +28,9 @@ namespace Business.Concrete
             if (result.Count == 0)
             {
                 _customerDal.Add(entity);
-                Console.WriteLine("Kayıt işlemi başarılı");
-                return new SuccessResult();
+                return new SuccessResult(Messages.Valid);
             }
-            Console.WriteLine("Müşteri zaten kayıtlı");
-            return new ErrorResult();
+            return new ErrorResult(Messages.InValid);
         }
 
         public IResult Delete(Customer entity)

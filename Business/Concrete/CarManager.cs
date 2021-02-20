@@ -1,9 +1,12 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using Entities.DTOs;
+using FluentValidation;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -21,6 +24,16 @@ namespace Business.Concrete
 
         public IResult Add(Car car)
         {
+
+            ValidationTool.Validate(new CarValidator(), car);
+            // Loglama
+            // Cacheremove
+            // Performance
+            // Transaction
+            // Yetkilendirme
+
+            // business codes
+
             if (car.Description.Length < 2)
             {
                 // magic string
@@ -34,7 +47,7 @@ namespace Business.Concrete
         public IResult Delete(Car entity)
         {
             _carDal.Delete(entity);
-            return new SuccessResult(Messages.CarDeleted);  
+            return new SuccessResult(Messages.CarDeleted);
         }
 
         public IResult Update(Car entity)
@@ -49,7 +62,7 @@ namespace Business.Concrete
         {
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.CarListed);
         }
-                      
+
 
         public IDataResult<Car> GetById(int id)
         {

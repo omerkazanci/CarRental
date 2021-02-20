@@ -1,10 +1,10 @@
 ﻿using Business.Abstract;
+using Business.Constants;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Business.Concrete
 {
@@ -33,11 +33,9 @@ namespace Business.Concrete
             if (result.Count == 0)
             {
                 _rentalDal.Add(entity);
-                Console.WriteLine("Araç kiralandı");
-                return new SuccessResult();
+                return new SuccessResult(Messages.Valid);
             }
-            Console.WriteLine("Araç kiralanmış");
-            return new ErrorResult();
+            return new ErrorResult(Messages.InValid);
         }
 
         public IResult Delete(Rental entity)
