@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -22,6 +24,7 @@ namespace Business.Concrete
         // araç kiralamış olan kişilerdir. Bu bağlamda önce Kullanıcı kontrolünü sonrasında ise Müşteri kontrolünü yaparak ekleme yapacağız.
         // Bütün metodlarda kontroller olmak zorunda fakat şuan için sadece Add metodunda kullandım
 
+        [ValidationAspect(typeof(CustomerValidator))]
         public IResult Add(Customer entity)
         {
             var result = _customerDal.GetAll(c => c.UserId == entity.UserId);

@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -27,6 +29,7 @@ namespace Business.Concrete
         // olmadığına bakalım ilerleyen dönemlerde bir web arayüz oluşturduğumuzda bu kısımlar refactor edilecek ve tüm kontroller yapılabilecek..               
         // Bütün metodlarda kontroller olmak zorunda fakat şuan için sadece Add metodunda kullandım
 
+        [ValidationAspect(typeof(RentalValidator))]
         public IResult Add(Rental entity)
         {
             var result = _rentalDal.GetAll(r => r.CarId == entity.CarId);

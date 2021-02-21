@@ -1,5 +1,7 @@
 ﻿using Business.Abstract;
 using Business.Constants;
+using Business.ValidationRules.FluentValidation;
+using Core.Aspects.Autofac.Validation;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
@@ -21,6 +23,8 @@ namespace Business.Concrete
         // Kullanıcı ekliyoruz fakat daha önce kayıt var mı ? Şuan sadece isim yönünden kontrol gerçekleştirdim. Normalde EMail unique(eşsiz)
         // olması gerekir ve onun üzerinden kontrol yapılır. Ve diğer tanımlanan kontroller üzerinden.
         // Bütün metodlarda kontroller olmak zorunda fakat şuan için sadece Add metodunda kullandım
+
+        [ValidationAspect(typeof(UserValidator))]
         public IResult Add(User entity)
         {
             var result = _userDal.GetAll(u => u.FirstName == entity.FirstName);
